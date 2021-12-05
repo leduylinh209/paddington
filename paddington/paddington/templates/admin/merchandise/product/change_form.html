@@ -1,0 +1,6 @@
+{% extends "admin/change_form.html" %}
+{% block object-tools-items %}
+    {{ block.super }}
+    <li><a href="/admin/merchandise/samplepost/add/?product={{ object_id }}" class="grp-state-focus">New sample post</a></li>
+    <li><a href="/admin/merchandise/trainingpost/add/?product={{ object_id }}" class="grp-state-focus">New training post</a></li>
+{% endblock %}

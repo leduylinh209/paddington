@@ -1,0 +1,28 @@
+{% extends "admin/change_form.html" %}
+{% load i18n admin_urls staticfiles %}
+{% block content %}
+    <form action="" method="post">
+        <input type="hidden" name="action" value="add_cared_by" />
+
+        {{ form.as_p }}
+
+        <footer class="grp-module grp-submit-row grp-fixed-footer">
+            <ul>
+                <li>
+                    <a href="{{ request.get_full_path }}">
+                        <button type="button" class="grp-button grp-cancel-link" style="width: auto;">Back</button>
+                    </a>
+                </li>
+                <li><input type="submit" value="Save" class="grp-button grp-default" name="save"></li>
+            </ul>
+        </footer>
+
+        {% csrf_token %}
+    </form>
+{% endblock %}
+
+{% block footer %}
+<script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+
+{{ form.media }}
+{% endblock %}

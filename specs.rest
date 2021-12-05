@@ -1,0 +1,313 @@
+################################################################################
+# Account APIs
+################################################################################
+# Login
+POST http://localhost:8000/auth/login/
+Content-Type: application/json
+{
+  "username": "01298777298",
+  "password": "q"
+}
+
+# Response
+# {
+#   "key": "210f46f0372529df51d38d8d2cbfdd49aba8ad16"
+# }
+
+
+# User profile
+GET http://localhost:8000/auth/user/
+Content-Type: application/json
+Authorization: Token 210f46f0372529df51d38d8d2cbfdd49aba8ad16
+
+# Response
+# {
+#   "phone": "01298777298",
+#   "last_name": "Hoang",
+#   "first_name": "Loi",
+#   "profile": {
+#      "sex": "female",
+#      "address": "Hanoiiiii",
+#      "bank_account_name": "Tai Vo",
+#      "bank_account_no": "123456",
+#      "bank_cod": "701",
+#      "date_of_birth": "29-08-1991",
+#      "email": "test@gmail.com",
+#      "id_card_no": "123456",
+#      "interest": "Eat, sleep, play",
+#      "business_facebook": "fb.com/tai",
+#      "personal_facebook": "fb.com/me",
+#      "lazada_shop": "lzd.com/me",
+#      "shopee_shop": "sp.com/me",
+#      "tiki_shop": "tk.com/you",
+#      "online_sales_experience": "1_to_3"
+#   }
+# }
+
+
+PUT http://localhost:8000/auth/user/
+Content-Type: application/json
+Authorization: Token 210f46f0372529df51d38d8d2cbfdd49aba8ad16
+{
+  "profile": {
+    "sex": "female",
+    "address": "Hanoiiiii",
+    "bank_account_name": "Tai Vo",
+    "bank_account_no": "123456",
+    "bank_cod": "701",
+    "date_of_birth": "29-08-1991",
+    "email": "test@gmail.com",
+    "id_card_no": "123456",
+    "interest": "Eat, sleep, play",
+    "business_facebook": "fb.com/tai",
+    "personal_facebook": "fb.com/me",
+    "lazada_shop": "lzd.com/me",
+    "shopee_shop": "sp.com/me",
+    "tiki_shop": "tk.com/you",
+    "online_sales_experience": "1_to_3",
+    "last_notification_id": null
+  }
+}
+
+
+POST http://localhost:8000/auth/password/change/
+Content-Type: application/json
+Authorization: Token 210f46f0372529df51d38d8d2cbfdd49aba8ad16
+{
+  "old_password": "q",
+  "new_password1": "11111111",
+  "new_password2": "11111111"
+}
+
+
+POST http://localhost:8000/account/new/
+Content-Type: application/json
+Authorization: Token 210f46f0372529df51d38d8d2cbfdd49aba8ad16
+{
+  "name": "Vo Manh Tai",
+  "phone": "0828777293",
+  "referred_by": "0828777299",
+  "address": "Hanoi",
+  "password1": "11111111",
+  "password2": "11111111"
+}
+
+
+GET http://localhost:8000/account/friend/
+Content-Type: application/json
+Authorization: Token 210f46f0372529df51d38d8d2cbfdd49aba8ad16
+
+
+GET http://localhost:8000/account/transaction/
+Content-Type: application/json
+Authorization: Token 210f46f0372529df51d38d8d2cbfdd49aba8ad16
+
+
+################################################################################
+# Noibaiconnect APIs
+################################################################################
+# Get price
+POST http://localhost:8000/service/nbc/quotation/
+Content-Type: application/json
+Authorization: Token 210f46f0372529df51d38d8d2cbfdd49aba8ad16
+{
+    "start_point": "458 Minh Khai",
+    "end_point": "Noi bai",
+    "stop_points": "",
+    "num_stop_points": 0,
+    "trip_distance": 28000,
+    "trip_duration": 0,
+    "trip_type": 0,
+    "num_seats": 4,
+    "wait_time": 2.5,
+    "is_round_trip": false,
+    "is_long_distance_trip": false,
+    "return_trip_distance": 0,
+    "pickup_datetime": "2019-02-02 04:00"
+}
+
+# Response includes all input fields and:
+# {
+#   "id": 1,
+#   "total_fee": 201000,
+#   "commission": 0,
+#   "stop_fee": 0,
+#   "night_fee": 0,
+#   "wait_fee": 0
+# }
+
+
+POST http://localhost:8000/service/nbc/booking/
+Content-Type: application/json
+Authorization: Token 210f46f0372529df51d38d8d2cbfdd49aba8ad16
+{
+    "quotation_id": 1,
+    "customer_name": "Loi",
+    "customer_phone": "0828777298"
+}
+
+# Response includes all input fields (quotation_id expands to full quotation) and:
+# {
+#   "id": 1,
+#   "total_fee": 201000,
+#   "commission": 0,
+#   "stop_fee": 0,
+#   "night_fee": 0,
+#   "wait_fee": 0
+# }
+
+
+GET http://localhost:8000/service/nbc/booking/
+Content-Type: application/json
+Authorization: Token 210f46f0372529df51d38d8d2cbfdd49aba8ad16
+
+# [{
+#   "id": 1,
+#   "total_fee": 201000,
+#   "commission": 0,
+#   "stop_fee": 0,
+#   "night_fee": 0,
+#   "wait_fee": 0,
+#   "quotation": {...}
+# }]
+
+
+################################################################################
+# App release APIs
+################################################################################
+GET http://localhost:8000/service/app/version/?store={play|itunes}&id=com.vicare.vn
+Content-Type: application/json
+
+# Response
+# {
+#   "id": "com.vicare.vn",
+#   "store": "play",
+#   "version": 1
+# }
+
+
+GET http://localhost:8000/service/app/release/?store={itunes|play}
+Content-Type: application/json
+
+# Response
+# {
+#   "store": "play",
+#   "version": "1.0.2",
+#   "release_note": "Good"
+# }
+
+GET http://localhost:8000/service/product/list/
+Content-Type: application/json
+Authorization: Token 210f46f0372529df51d38d8d2cbfdd49aba8ad16
+
+GET https://dev.mebaha.com/service/product/list/?q=trung
+Content-Type: application/json
+Authorization: Token d0fa30f9c99752e0244940ecda7a9d52e8dffa4b
+
+GET http://localhost:8000/service/product/list/1/
+Content-Type: application/json
+Authorization: Token 210f46f0372529df51d38d8d2cbfdd49aba8ad16
+
+
+################################################################################
+# Product & Order APIs
+################################################################################
+# POST https://dev.mebaha.com/service/product/order/
+# Content-Type: application/json
+# Authorization: Token d0fa30f9c99752e0244940ecda7a9d52e8dffa4b
+POST http://localhost:8000/service/product/order/
+Content-Type: application/json
+Authorization: Token 210f46f0372529df51d38d8d2cbfdd49aba8ad16
+{
+    "product_id": 1,
+    "quantity": 11,
+    "price": 10000,
+    "amount": 10000,
+    "deliver_to_me": false,
+    "receiver_name": "Tai",
+    "receiver_phone": "01298777298",
+    "receiver_address": "hanoi",
+    "delivery_note": "kho tinh",
+    "collect_on_behalf": true,
+    "collection_money": 100000,
+    "shipping_cost_included": true
+}
+
+GET https://dev.mebaha.com/service/product/order/
+Content-Type: application/json
+Authorization: Token d0fa30f9c99752e0244940ecda7a9d52e8dffa4b
+
+GET http://localhost:8000/service/product/order/3cc8be63-0bfc-489c-9ea4-6fbfaf54f6a4/
+Content-Type: application/json
+Authorization: Token 210f46f0372529df51d38d8d2cbfdd49aba8ad16
+
+
+POST http://localhost:8000/service/product/order/9fdcd825-5e4e-4449-a25d-366c9e37f58a/
+Content-Type: application/json
+Authorization: Token 210f46f0372529df51d38d8d2cbfdd49aba8ad16
+
+# Sample post list
+GET http://localhost:8000/service/product/sample-post/?product_id=1
+Content-Type: application/json
+Authorization: Token 210f46f0372529df51d38d8d2cbfdd49aba8ad16
+
+# Sample post detail
+GET http://localhost:8000/service/product/sample-post/1/
+Content-Type: application/json
+Authorization: Token 210f46f0372529df51d38d8d2cbfdd49aba8ad16
+
+# Training post list
+GET http://localhost:8000/service/product/training-post/?product_id=1
+Content-Type: application/json
+Authorization: Token 210f46f0372529df51d38d8d2cbfdd49aba8ad16
+
+# Training post detail
+GET http://localhost:8000/service/product/training-post/1/
+Content-Type: application/json
+Authorization: Token 210f46f0372529df51d38d8d2cbfdd49aba8ad16
+
+GET http://localhost:8000/service/product/category/
+Content-Type: application/json
+Authorization: Token 210f46f0372529df51d38d8d2cbfdd49aba8ad16
+
+
+GET http://localhost:8000/account/notification/
+Content-Type: application/json
+Authorization: Token 210f46f0372529df51d38d8d2cbfdd49aba8ad16
+
+
+GET http://localhost:8000/account/notification/
+Content-Type: application/json
+Authorization: Token 210f46f0372529df51d38d8d2cbfdd49aba8ad16
+
+
+GET http://localhost:8000/account/notification/9/
+Content-Type: application/json
+Authorization: Token 210f46f0372529df51d38d8d2cbfdd49aba8ad16
+
+
+POST http://localhost:8000/service/ads/block_ip
+Content-Type: application/json
+{
+  "campaign_id": "2089990492",
+  "ip_address": ["8.8.8.8", "1.1.1.1", "4.4.4.4"]
+}
+
+POST http://localhost:8000/service/ads/block_ip
+Content-Type: application/json
+{
+  "campaign_id": "2089990492",
+  "ip_address": "8.8.8.8"
+}
+
+POST http://localhost:8000/service/ads/unblock_ip
+Content-Type: application/json
+{
+  "campaign_id": "2089990492"
+}
+
+POST http://localhost:8000/service/fb/comment
+Content-Type: application/json
+{
+  "comment_id": "2089990492"
+}

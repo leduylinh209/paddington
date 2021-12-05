@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ title }}</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-10">
+        {% for post in posts %}
+          <div class="ml-1">
+            <h4>Post: <a href="https://facebook.com/{{ post.id }}" target="_blank">{{ post.id }}</a> <small>({{ post.no_reply_comments|length }} comments without reply)</small></h4>
+            <p><em>{{ post.message|truncatewords:200 }}</em></p>
+          {% for comment in post.no_reply_comments %}
+            <div class="ml-3" id="{{ comment.id }}">
+              <h5>Comment: <a href="https://facebook.com/{{ comment.id }}" target="_blank">{{ comment.id }}</a> - <small class="resolve" data="{{ comment.id }}">Resolve</small></h5>
+              <p><em>{{ comment.message|truncatewords:200 }}</em></p>
+            </div>
+          {% endfor %}
+          </div>
+        {% endfor %}
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+
+<script>
+$(document).ready(function() {
+  $(".resolve").click(function(e) {
+    var comment_id = $(e.target).attr('data');
+    $.ajax({
+      url: "/service/fb/comment",
+      type: "post",
+      contentType: 'application/json',
+      headers: {
+        "X-CSRFToken": "{{ csrf_token }}"
+      },
+      data: JSON.stringify({
+        comment_id: comment_id,
+      })
+    }).done(function() {
+      $("#"+comment_id).remove();
+    }).fail(function() {
+      alert("Fail to resolve!");
+    })
+  });
+})
+</script>
+
+</body>
+</html>

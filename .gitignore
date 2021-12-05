@@ -1,0 +1,6 @@
+*.sqlite3
+.env
+data/
+paddington/media/
+env/
+__pycache__/

@@ -1,0 +1,28 @@
+image: centos:7
+
+stages:
+    - deploy
+
+before_script:
+    - yum install which -y
+    - 'which ssh-agent || ( yum install openssh-clients -y )'
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+production:
+    stage: deploy
+    script:
+      - ssh -t root@mebaha.com "cd paddington && git pull && make"
+    only:
+      - master
+    environment: production
+
+develop:
+    stage: deploy
+    script:
+      - ssh -t root@dev.mebaha.com "cd paddington && git pull && make"
+    only:
+      - develop
+    environment: develop
